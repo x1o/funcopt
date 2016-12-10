@@ -5,6 +5,29 @@
 #include <exception>	// invalid_argument for operator+
 #include <sstream>
 
+Point::Point(std::initializer_list<double> p) : std::vector<double>(p) {}
+Point::Point(const Point& p) : std::vector<double>(p) {}
+Point::Point() : std::vector<double>() {}
+Point::Point(int size) : std::vector<double>(size) {}
+
+bool Point::IsZero(double eps) const {
+  for (size_t i = 0; i < size(); i++) {
+    if (std::abs((*this)[i]) > eps) {
+      return false;
+    }
+  }
+  return true;
+}
+
+double Point::L2Norm() const {
+  // FIXME: get rid of the loop
+  double norm = 0;
+  for (size_t i = 0; i < size(); i++) {
+    norm += pow((*this)[i], 2);
+  }
+  return std::sqrt(norm);
+}
+
 Point operator* (const Point& p, double r) {
   // FIXME: get rid of the loop
   Point q(p);
@@ -59,23 +82,6 @@ double operator* (const Point& p, const Point& q) {
     s += p[i] * q[i];
   }
   return s;
-}
-
-bool Point::IsZero(double eps) {
-  for (size_t i = 0; i < size(); i++) {
-    if (std::abs((*this)[i]) > eps) {
-      return false;
-    }
-  }
-  return true;
-}
-
-double Point::L2Norm() const {
-  double norm = 0;
-  for (size_t i = 0; i < size(); i++) {
-    norm += pow((*this)[i], 2);
-  }
-  return std::sqrt(norm);
 }
 
 std::ostream& operator<<(std::ostream& s, const Point& p) {

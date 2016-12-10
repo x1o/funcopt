@@ -9,19 +9,19 @@
  */
 class Point : public std::vector<double> {
   public:
-    Point(std::initializer_list<double> p) : std::vector<double>(p) {};
+    Point(std::initializer_list<double> p);
     // Point(Point&& p) : std::vector<double>(p) {};
-    Point(const Point& p) : std::vector<double>(p) {};
-    Point() : std::vector<double>() {};
-    Point(int size) : std::vector<double>(size) {};
-    bool IsZero(double eps=10e-6);
+    Point(const Point& p);
+    Point();
+    Point(int size);
+    bool IsZero(double eps=10e-6) const;
     double L2Norm() const;
 };
 
 /**
  * Scalar (coordinate-wise) vector multiplication.
- * @param A point.
- * @param A scalar.
+ * @param p point.
+ * @param r scalar.
  * @return Magnified / contracted vector.
  */
 Point operator* (const Point& p, double r);
