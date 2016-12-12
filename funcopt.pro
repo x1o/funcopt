@@ -14,16 +14,31 @@ TARGET = funcopt_gui
 TEMPLATE = app
 
 
-INCLUDEPATH = include gtest/include gtest
+INCLUDEPATH += include gtest/include gtest
 
 
 SOURCES += gtest/src/gtest-all.cc\
-           src/funcopt_unittest.cc\
+           tests/funcopt_unittest.cc\
            src/main.cc\
+           src/widget.cc\
            src/Point.cc\
-           src/widget.cc
+           src/ScalarField.cc\
+           src/Domain.cc \
+    src/StopIterCriterion.cc \
+    src/StopIterCriteria.cc \
+    src/MaxIterCriterion.cc \
+    src/ValDiffCriterion.cc
 
-HEADERS  += include/Point.h\
-            include/widget.h
+HEADERS  += include/widget.h\
+            include/Point.h\
+            include/ScalarField.h\
+            include/IterResult.h\
+            include/StopIterCriterion.h\
+            include/StopIterCriteria.h\
+            include/MaxIterCriterion.h\
+            include/ValDiffCriterion.h\
+            include/scalar_fields.h\
+            include/Domain.h
+
 
 FORMS    += ui/widget.ui

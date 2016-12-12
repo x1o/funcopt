@@ -77,6 +77,7 @@ Point operator/ (const Point& p, const Point& q) {
 }
 
 double operator* (const Point& p, const Point& q) {
+  // FIXME: get rid of the loop
   double s = 0;
   for (size_t i = 0; i < p.size(); i++) {
     s += p[i] * q[i];

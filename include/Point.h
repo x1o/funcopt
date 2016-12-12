@@ -20,16 +20,28 @@ class Point : public std::vector<double> {
 
 /**
  * Scalar (coordinate-wise) vector multiplication.
- * @param p point.
- * @param r scalar.
- * @return Magnified / contracted vector.
+ * @param p point
+ * @param r scalar
+ * @return Magnified / contracted vector
  */
 Point operator* (const Point& p, double r);
 Point operator* (double r, const Point& p);
 Point operator- (const Point& p);
 Point operator+ (const Point& p, const Point& q);
 Point operator- (const Point& p, const Point& q);
+/**
+ * @brief Coordinate-wise division of two points
+ * @param p
+ * @param q
+ * @return point p/q
+ */
 Point operator/ (const Point& p, const Point& q);
+/**
+ * @brief Dot-product of two points.
+ * @param p
+ * @param q
+ * @return point p*q
+ */
 double operator* (const Point& p, const Point& q);
 std::ostream& operator<<(std::ostream& s, const Point& p);
 
