@@ -31,7 +31,7 @@ class ScalarField {
   private:
     std::string repr_;
     Domain domain_;
-    const double grad_h_ = 0.05;
+    const double grad_h_ = 0.001;
     virtual double Eval_(const Point& p) const = 0;
 };
 

@@ -1,11 +1,22 @@
 #include "DirectionFunction.h"
 
-DirectionFunction::DirectionFunction(const ScalarField *f, const Point& p, const Point& q)
-// : Function("", Domain {{-std::min((f->GetDomain() - p) / q),
-// std::min((f->GetDomain() - p) / q)}}),
-  : Function("", Domain {{-q.L2Norm(), q.L2Norm()}}),
+Point FixDirection(const Point& p, const Point& q, const ScalarField* f) {
+  auto dom = f->GetDomain();
+  if (! dom.Contains(p)) {
+    throw std::domain_error("Domain doesn't contain starting point.");
+  }
+  Point q_new(q);
+  double contract_factor = 0.9;
+  while (! dom.Contains(p + q_new)) {
+    q_new = contract_factor * q_new;
+  }
+  return q_new;
+}
+
+DirectionFunction::DirectionFunction(const ScalarField* f, const Point& p, const Point& q)
+  : Function("", Domain {{0, 1}}),
     p_(p),
-    q_(q) {
+    q_(FixDirection(p, q, f)) {
   f_ = f;
 }
 

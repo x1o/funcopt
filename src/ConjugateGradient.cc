@@ -30,7 +30,7 @@ IterResult ScalarField::ConjugateGradient(ConjugateGradientParams* params,
     }
     // FIXME: magic constant
     alpha = LineSearch(x_k, p_k, 10e-10);
-    if (verbose)/*{{{*/
+    if (verbose)
       std::cout << "alpha = " << alpha << std::endl;/*}}}*/
     x_prev = x_k;
     x_k = x_k + alpha * p_k;
