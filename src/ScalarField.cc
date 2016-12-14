@@ -5,7 +5,7 @@
 #include <exception>
 #include <algorithm>	// std::min
 
-//#include "DirectionFunction.h"
+#include "DirectionFunction.h"
 
 ScalarField::ScalarField(const std::string& repr, const Domain& domain)
   : repr_(repr), domain_(domain) {}
@@ -61,27 +61,26 @@ Point ScalarField::Gradient(const Point& p) const {
   return g;
 }
 
-//// FIXME const &
-//double ScalarField::LineSearch(Point p, Point q, double eps) {
-//  DirectionFunction phi = DirectionFunction(this, p, q);
-//  IterResult res = phi.FindMinBisect(0, 1, eps);
-//  if (res.has_converged) {
-//    return res.arg[0];
-//  } else {
-//    return 0;
-//  }
-//}
+double ScalarField::LineSearch(const Point& p, const Point& q, double eps) const {
+  DirectionFunction phi = DirectionFunction(this, p, q);
+  IterResult res = phi.FindMinBisect(0, 1, eps);
+  if (res.has_converged) {
+    return res.arg[0];
+  } else {
+    return 0;
+  }
+}
 
-//// FIXME: &, const
-//IterResult ScalarField::FindMin(OptMethod method, MethodParams* params, StopIterCriteria oracle, bool verbose) {
-//  switch (method) {
-//    case OptMethod::ConjugateGradient:
-//      // FIXME: avoid static_cast ?
-//      return ConjugateGradient(static_cast<ConjugateGradientParams*>(params), oracle, verbose);
-//    case OptMethod::RandomSearchBernoulli:
-//      return RandomSearchBernoulli(static_cast<RandomSearchBernoulliParams*>(params), oracle, verbose);
-//  }
-//}
+IterResult ScalarField::FindMin(OptMethod method, MethodParams* params,
+                                StopIterCriteria oracle, bool verbose) const {
+  switch (method) {
+    case OptMethod::ConjugateGradient:
+      // FIXME: avoid static_cast ?
+      return ConjugateGradient(static_cast<ConjugateGradientParams*>(params), oracle, verbose);
+    case OptMethod::RandomSearchBernoulli:
+      return RandomSearchBernoulli(static_cast<RandomSearchBernoulliParams*>(params), oracle, verbose);
+  }
+}
 
 std::ostream& operator<<(std::ostream& s, ScalarField& f) {
   return s << f.ToString();

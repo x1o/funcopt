@@ -9,7 +9,7 @@ class MaxIterCriterion : public StopIterCriterion {
 
   public:
     MaxIterCriterion(int max_iter);
-    bool ShouldStop(int n_iter, double f_val) const;
+    bool ShouldStop(int n_iter, double f_val);
 };
 
 #endif	// MAXITERCRITERION_H_

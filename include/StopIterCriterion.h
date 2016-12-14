@@ -4,7 +4,7 @@
 class StopIterCriterion {
   public:
     bool HasConverged();
-    virtual bool ShouldStop(int n_iter, double f_val) const = 0;
+    virtual bool ShouldStop(int n_iter, double f_val) = 0;
 
   protected:
     bool has_converged_ = false;

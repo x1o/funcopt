@@ -6,8 +6,8 @@
 
 #include "IterResult.h"
 #include "Domain.h"
-//#include "ConjugateGradient.h"
-//#include "RandomSearchBernoulli.h"
+#include "ConjugateGradient.h"
+#include "RandomSearchBernoulli.h"
 #include "Point.h"
 #include "StopIterCriteria.h"
 
@@ -20,10 +20,13 @@ class ScalarField {
     double operator() (const Point& p);
     Point Gradient(const Point& p) const;
     // FIXME make Point const references
-//    double LineSearch(Point p, Point q, double eps);
-//    IterResult FindMin(OptMethod method, MethodParams* params, StopIterCriteria oracle, bool verbose=false);
-    //	IterResult ConjugateGradient(ConjugateGradientParams* params, StopIterCriteria oracle, bool verbose);
-    //	IterResult RandomSearchBernoulli(RandomSearchBernoulliParams* params, StopIterCriteria oracle, bool verbose);
+    double LineSearch(const Point& p, const Point& q, double eps) const;
+    IterResult FindMin(OptMethod method, MethodParams* params,
+                       StopIterCriteria oracle, bool verbose=false) const;
+    IterResult ConjugateGradient(ConjugateGradientParams* params,
+                                 StopIterCriteria oracle, bool verbose) const;
+    IterResult RandomSearchBernoulli(RandomSearchBernoulliParams* params,
+                                     StopIterCriteria oracle, bool verbose) const;
 
   private:
     std::string repr_;
