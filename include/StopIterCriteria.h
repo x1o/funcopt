@@ -18,6 +18,7 @@ typedef std::vector<StopIterCriterion*> CriteriaList;
 class StopIterCriteria {
   public:
     StopIterCriteria(std::initializer_list<StopIterCriterion*> list);
+    StopIterCriteria(CriteriaList list);
     bool HasConverged() const;
     bool ShouldStop(int n_iter, double f_val) const;
     void AddCriterion(StopIterCriterion* criterion);

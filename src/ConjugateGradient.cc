@@ -18,9 +18,11 @@ IterResult ScalarField::ConjugateGradient(ConjugateGradientParams* params,
   // std::cout << x_k << " ~ " << p_k << std::endl;
   // while (!IsZeroVector(grad_k, eps)) {
   for (size_t k = 0;; k++) {
-    if (verbose)/*{{{*/
-      std::cout << x_k << std::endl;/*}}}*/
+    if (verbose)
+      std::cout << k << ": " << "x_k = " << x_k << "; ";
     f_k = Eval(x_k);
+    if (verbose)
+      std::cout << "f_k = " << f_k << std::endl;
     if (oracle.ShouldStop(k, f_k)) {
       res.has_converged = oracle.HasConverged();
       res.arg = x_k;
@@ -30,8 +32,8 @@ IterResult ScalarField::ConjugateGradient(ConjugateGradientParams* params,
     }
     // FIXME: magic constant
     alpha = LineSearch(x_k, p_k, 10e-10);
-    if (verbose)
-      std::cout << "alpha = " << alpha << std::endl;/*}}}*/
+//    if (verbose)
+//      std::cout << "alpha = " << alpha << std::endl;
     x_prev = x_k;
     x_k = x_k + alpha * p_k;
     grad_next = Gradient(x_k);

@@ -16,7 +16,6 @@ INCLUDEPATH += include gtest/include gtest
 
 SOURCES += gtest/src/gtest-all.cc\
     tests/funcopt_unittest.cc\
-    src/widget.cc\
     src/Point.cc\
     src/ScalarField.cc\
     src/Domain.cc \
@@ -27,9 +26,11 @@ SOURCES += gtest/src/gtest-all.cc\
     src/Function.cc \
     src/DirectionFunction.cc \
     src/ConjugateGradient.cc\
-    src/ValDiffCriterion.cc
+    src/ValDiffCriterion.cc \
+    src/MainWindow.cc \
+    src/ContourPlotRenderWidget.cc
 
-HEADERS  += include/widget.h\
+HEADERS  +=\
     include/Point.h\
     include/ScalarField.h\
     include/IterResult.h\
@@ -43,9 +44,12 @@ HEADERS  += include/widget.h\
     include/Function.h\
     include/DirectionFunction.h\
     include/ConjugateGradient.h\
-    include/Domain.h
+    include/Domain.h \
+    include/MainWindow.h \
+    include/ContourPlotRenderWidget.h
 
-FORMS    += ui/widget.ui
+FORMS    += \
+    ui/MainWindow.ui
 
 CFG_CLI {
     SOURCES += src/funcopt_cli.cc

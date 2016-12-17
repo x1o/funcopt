@@ -61,7 +61,7 @@ Point ScalarField::Gradient(const Point& p) const {
   return g;
 }
 
-double ScalarField::LineSearch(const Point& p, const Point& q, double eps) const {
+double ScalarField::LineSearch(const Point& p, Point& q, double eps) const {
   DirectionFunction phi = DirectionFunction(this, p, q);
   IterResult res = phi.FindMinBisect(0, 1, eps);
   if (res.has_converged) {

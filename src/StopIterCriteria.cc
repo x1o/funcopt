@@ -1,6 +1,10 @@
 #include "StopIterCriteria.h"
 
-StopIterCriteria::StopIterCriteria(std::initializer_list<StopIterCriterion*> list) : criteria_(list) {}
+StopIterCriteria::StopIterCriteria(std::initializer_list<StopIterCriterion*> list)
+  : criteria_(list) {}
+
+StopIterCriteria::StopIterCriteria(CriteriaList list)
+  : criteria_(list) {}
 
 bool StopIterCriteria::HasConverged() const {
   for (size_t i = 0; i < criteria_.size(); i++) {

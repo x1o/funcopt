@@ -20,7 +20,7 @@ class ScalarField {
     double operator() (const Point& p);
     Point Gradient(const Point& p) const;
     // FIXME make Point const references
-    double LineSearch(const Point& p, const Point& q, double eps) const;
+    double LineSearch(const Point& p, Point& q, double eps) const;
     IterResult FindMin(OptMethod method, MethodParams* params,
                        StopIterCriteria oracle, bool verbose=false) const;
     IterResult ConjugateGradient(ConjugateGradientParams* params,

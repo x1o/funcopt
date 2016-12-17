@@ -13,7 +13,8 @@ IterResult ScalarField::RandomSearchBernoulli(RandomSearchBernoulliParams* param
                                               StopIterCriteria oracle, bool verbose) const {
   Domain dom_f = GetDomain();
   Domain dom_loc = dom_f;
-  Point x(dom_f.size());
+//  Point x(dom_f.size());
+  Point x = params->x_0;
   Domain* dom_cur;
   double f_val;
   double lim_left, lim_right;
@@ -38,12 +39,14 @@ IterResult ScalarField::RandomSearchBernoulli(RandomSearchBernoulliParams* param
     if (verbose) {
       std::cout << "Search bounded on " << *dom_cur << " against min = " << min_prev << std::endl;
     }
-    for (size_t axis_idx = 0; axis_idx < dom_cur->size(); axis_idx++) {
-      lim_left = (*dom_cur)[axis_idx][0];
-      lim_right = (*dom_cur)[axis_idx][1];
-      // std::cout << lim_left << std::endl;
-      // std::cout << lim_right << std::endl;
-      x[axis_idx] = rng() * (lim_right - lim_left) + lim_left;
+    if (n_iter != 0) {
+      for (size_t axis_idx = 0; axis_idx < dom_cur->size(); axis_idx++) {
+        lim_left = (*dom_cur)[axis_idx][0];
+        lim_right = (*dom_cur)[axis_idx][1];
+        // std::cout << lim_left << std::endl;
+        // std::cout << lim_right << std::endl;
+        x[axis_idx] = rng() * (lim_right - lim_left) + lim_left;
+      }
     }
     f_val = Eval(x);
     if (verbose) {

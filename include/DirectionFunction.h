@@ -16,7 +16,7 @@ class DirectionFunction : public Function {
     // FIXME: const, Point&
     // FIXME: proper repr
     // FIXME: don't compute L2Norm() twice
-    DirectionFunction(const ScalarField *f, const Point& p, const Point& q);
+    DirectionFunction(const ScalarField *f, const Point& p, Point& q);
     double Eval(const Point& a) const;
 
   private:
