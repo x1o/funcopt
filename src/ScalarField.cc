@@ -18,13 +18,29 @@ Domain ScalarField::GetDomain() const {
   return domain_;
 }
 
+Point ScalarField::ShrinkToDomain(const Point& p, const Domain& d) const {
+  Point q(p);
+  for (unsigned int i = 0; i < p.size(); i++) {
+    if (p[i] > d[i][1]) {
+      q[i] = d[i][1];
+    } else if (p[i] < d[i][0]) {
+      q[i] = d[i][0];
+    }
+  }
+  return q;
+}
+
 double ScalarField::Eval(const Point& p) const {
   if (GetDomain().Contains(p)) {
     return Eval_(p);
   } else {
     std::stringstream ss;
-    ss << "Cannot evaluate at " << p << ": outside of domain " << GetDomain() << ".";
-    throw std::domain_error(ss.str());
+//    ss << "Cannot evaluate at " << p << ": outside of domain " << GetDomain() << ".";
+//    throw std::domain_error(ss.str());
+    std::cout << "WARNING: Cannot evaluate at " << p << ": outside of domain "
+              << GetDomain() << "; " << "shrinking the vector..." << std::endl;
+
+    return Eval_(ShrinkToDomain(p, GetDomain()));
   }
 }
 

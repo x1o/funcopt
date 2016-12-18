@@ -28,7 +28,8 @@ SOURCES += gtest/src/gtest-all.cc\
     src/ConjugateGradient.cc\
     src/ValDiffCriterion.cc \
     src/MainWindow.cc \
-    src/ContourPlotRenderWidget.cc
+    src/ContourPlotRenderWidget.cc \
+    src/GuiConfiguration.cc
 
 HEADERS  +=\
     include/Point.h\
@@ -46,7 +47,8 @@ HEADERS  +=\
     include/ConjugateGradient.h\
     include/Domain.h \
     include/MainWindow.h \
-    include/ContourPlotRenderWidget.h
+    include/ContourPlotRenderWidget.h \
+    include/GuiConfiguration.h
 
 FORMS    += \
     ui/MainWindow.ui

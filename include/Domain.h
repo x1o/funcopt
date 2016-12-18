@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <ostream>
+#include <string>
 
 #include "Point.h"
 
@@ -21,6 +22,7 @@ class Domain : public std::vector<Point> {
     Domain(std::initializer_list<Point> d);
     // Domain(Domain&& d) : std::vector<Point>(d) {};
     // Domain(const Domain& d) : std::vector<Point>(d) {};
+    std::string ToString() const;
     /**
      * Check whether a point belongs to the domain (including its border).
      * @param p target point.

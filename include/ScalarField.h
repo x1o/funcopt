@@ -33,6 +33,7 @@ class ScalarField {
     Domain domain_;
     const double grad_h_ = 0.001;
     virtual double Eval_(const Point& p) const = 0;
+    Point ShrinkToDomain(const Point& p, const Domain& d) const;
 };
 
 std::ostream& operator<<(std::ostream& s, ScalarField& f);

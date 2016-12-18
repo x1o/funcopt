@@ -21,6 +21,7 @@ IterResult ScalarField::RandomSearchBernoulli(RandomSearchBernoulliParams* param
   double min_prev = std::numeric_limits<double>::max();
   auto rng = []() { return double(rand()) / RAND_MAX; };
   IterResult res;
+  res.trace.push_back(x);
   for (size_t n_iter = 0;; n_iter++) {
     if (verbose) {
       std::cout << n_iter << ": ";
@@ -47,6 +48,7 @@ IterResult ScalarField::RandomSearchBernoulli(RandomSearchBernoulliParams* param
         // std::cout << lim_right << std::endl;
         x[axis_idx] = rng() * (lim_right - lim_left) + lim_left;
       }
+      res.trace.push_back(x);
     }
     f_val = Eval(x);
     if (verbose) {

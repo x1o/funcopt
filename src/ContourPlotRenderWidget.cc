@@ -3,6 +3,7 @@
 #include <QPolygon>
 #include <QPoint>
 #include <QColor>
+#include <QMouseEvent>
 #include <iostream>
 #include <vector>
 #include <limits>
@@ -16,28 +17,33 @@ ContourPlotRenderWidget::ContourPlotRenderWidget(QWidget *parent)
   // resize(1000, 900);
 }
 
-void ContourPlotRenderWidget::paintEvent(QPaintEvent*)  {
+void ContourPlotRenderWidget::SetConfig(GuiConfiguration* conf)
+{
+  conf_ = conf;
+}
+
+void ContourPlotRenderWidget::DrawPlot(ScalarField* f)
+{
   QPainter painter(this);
-//  QPolygon plot_data(height() * width());
-  auto f = [](double x, double y) { return x*x + y*y; };
-  double d00, d01, d10, d11;
-  d00 = -3;
-  d01 = 5;
-  d10 = -4;
-  d11 = 2;
+//  auto f = [](double x, double y) { return x*x + y*y; };
+  double dom_0_L, dom_0_R, dom_1_L, dom_1_R;
+  dom_0_L = f->GetDomain()[0][0];
+  dom_0_R = f->GetDomain()[0][1];
+  dom_1_L = f->GetDomain()[1][0];
+  dom_1_R = f->GetDomain()[1][1];
   double f_val;
   double h = height();
   double w = width();
   std::vector<std::vector<double>> F;
-  double dx = (d01 - d00) / w;
-  double dy = (d11 - d10) / h;
+  double dx = (dom_0_R - dom_0_L) / w;
+  double dy = (dom_1_R - dom_1_L) / h;
   double f_min = std::numeric_limits<double>::max();
   double f_max = std::numeric_limits<double>::min();
-  for (double y = d11; y >= d10; y -= dy) {
+  for (double y = dom_1_R; y >= dom_1_L; y -= dy) {
     std::vector<double> row;
-    for (double x = d00; x <= d01; x += dx) {
-//      f_val = f_cur(Point {x, y});
-      f_val = f(x, y);
+    for (double x = dom_0_L; x <= dom_0_R; x += dx) {
+      f_val = (*f)(Point {x, y});
+//      f_val = f(x, y);
       if (f_val < f_min) {
         f_min = f_val;
       }
@@ -57,25 +63,83 @@ void ContourPlotRenderWidget::paintEvent(QPaintEvent*)  {
   for (int i = 0; i < w; i++) {
     for (int j = 0; j < h; j++) {
       satur = std::floor((F[j][i] - f_min) / f_range * n_levels) * dsat;
-//      std::cout << "(" << i << "," << j << ") : " << "sat = " << satur << std::endl;
-//      if (satur < 0) {
-//        std::cout << F[j][i] << std::endl;
-//      }
       painter.setPen(QColor::fromHsv(240, satur, 255));
       painter.drawPoint(i, j);
     }
-//    std::cout << "HI" << std::endl;
   }
-//  painter.setPen(QColor("blue"));
-//  painter.drawPoint(1, 1);
-//  painter.setPen(QColor("red"));
-//  painter.drawPoint(20, 20);
-//  plot_data[0] = QPoint(1, 1);
-//  plot_data[1] = QPoint(10, 10);
-//  plot_data[1] = QPoint(20, 20);
-//  plot_data[2] = QPoint(30, 30);
-  std::cout << width() << " " << height() << std::endl;
-//  painter.drawPoints(plot_data);
+  //  std::cout << width() << " " << height() << std::endl;
+}
+
+void ContourPlotRenderWidget::DrawX(const QPoint& p)
+{
+  QPainter painter(this);
+  painter.drawLine(p.x() - 4, p.y() - 4, p.x() + 3, p.y() + 3);
+  painter.drawLine(p.x() - 4, p.y() + 4, p.x() + 3, p.y() - 3);
+}
+
+void ContourPlotRenderWidget::DrawTrace(const std::vector<Point>& trace)
+{
+  QPainter painter(this);
+  QPoint* q_prev = nullptr;
+  QPoint* q;
+  for (auto& p: trace) {
+    q = new QPoint(R2ToScreen(p));
+    painter.drawEllipse(*q, 5, 5);
+    if (q_prev != nullptr) {
+      painter.drawLine(*q_prev, *q);
+      delete q_prev;
+    }
+    q_prev = q;
+  }
+}
+
+QPoint ContourPlotRenderWidget::R2ToScreen(const Point& p)
+{
+  auto f = conf_->GetCurrentFunc();
+  double dom_0_L = f->GetDomain()[0][0];
+  double dom_0_R = f->GetDomain()[0][1];
+  double dom_1_L = f->GetDomain()[1][0];
+  double dom_1_R = f->GetDomain()[1][1];
+  double dx = (dom_0_R - dom_0_L) / width();
+  double dy = (dom_1_R - dom_1_L) / height();
+  return QPoint(std::floor((p[0] - dom_0_L) / dx),
+                std::floor((-p[1] + dom_1_R) / dy));
+}
+
+Point* ContourPlotRenderWidget::ScreenToR2(const QPoint& p)
+{
+  auto f = conf_->GetCurrentFunc();
+  double dom_0_L = f->GetDomain()[0][0];
+  double dom_0_R = f->GetDomain()[0][1];
+  double dom_1_L = f->GetDomain()[1][0];
+  double dom_1_R = f->GetDomain()[1][1];
+  double dx = (dom_0_R - dom_0_L) / width();
+  double dy = (dom_1_R - dom_1_L) / height();
+  return new Point {p.x()*dx + dom_0_L, - p.y()*dy + dom_1_R};
+}
+
+void ContourPlotRenderWidget::paintEvent(QPaintEvent*)
+{
+  DrawPlot(conf_->GetCurrentFunc());
+  auto x_0 = conf_->GetInitialPoint();
+  if (x_0 != nullptr) {
+    DrawX(R2ToScreen(*x_0));
+  }
+  auto& res = conf_->GetIterResult();
+  if (conf_->has_run) {
+    DrawTrace(res.trace);
+  }
+}
+
+void ContourPlotRenderWidget::mousePressEvent(QMouseEvent* event)
+{
+  if (!(event->button() == Qt::LeftButton)) {
+    return;
+  }
+  std::cout << event->pos().x() << " " << event->pos().y() << " -> ";
+  conf_->SetInitialPoint(ScreenToR2(event->pos()));
+  std::cout << "x_0 = " << *(conf_->GetInitialPoint()) << "; w = " << width() << ", h = " << height() << std::endl;
+  update();
 }
 
 //void ContourPlotRenderWidget::changeState(int i) {

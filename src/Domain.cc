@@ -2,10 +2,27 @@
 
 #include <cstdlib>	// size_t
 #include <limits>	// epsilon
+#include <string>
+#include <sstream>
 
 const double eps = std::numeric_limits<double>::epsilon();
 
 Domain::Domain(std::initializer_list<Point> d) : std::vector<Point>(d) {}
+
+std::string Domain::ToString() const
+{
+  std::stringstream ss;
+  ss << "[";
+  auto d = this;
+  if (d->size() > 0) {
+    for (size_t i = 0; i < d->size() - 1; i++) {
+      ss << (*d)[i] << ", ";
+    }
+    ss << (*d)[d->size()-1];
+  }
+  ss << "]";
+  return ss.str();
+}
 
 bool Domain::Contains(const Point& p) const {
   for (size_t i = 0; i < p.size(); i++) {
@@ -29,13 +46,5 @@ void Domain::ZoomToPoint(Domain& dom_target, const Point& p, double contract_fac
 
 // TODO: merge with Point's <<
 std::ostream& operator<<(std::ostream& s, const Domain& d) {
-  s << "[";
-  if (d.size() > 0) {
-    for (size_t i = 0; i < d.size() - 1; i++) {
-      s << d[i] << ", ";
-    }
-    s << d[d.size()-1];
-  }
-  s << "]";
-  return s;
+  return s << d.ToString();
 }

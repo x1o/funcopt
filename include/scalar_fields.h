@@ -26,7 +26,7 @@ class F2 : public ScalarField {
 
   public:
     F2() : ScalarField("(x-70)^2 + 100*(x-y)^2",
-                       Domain {{-1000, 1000}, {-1000, 1000}}) {}
+                       Domain {{-100, 100}, {-100, 100}}) {}
 };
 
 
@@ -38,7 +38,7 @@ class F3 : public ScalarField {
 
   public:
     F3() : ScalarField("sin(10*x^2 + y) + y^2*exp(|x + y|)",
-                       Domain {{-5, 5}, {-5, 5}}) {}
+                       Domain {{-3, 3}, {-2, 2}}) {}
 };
 
 class F4 : public ScalarField {

@@ -3,6 +3,7 @@
 
 
 #include "Point.h"
+#include <vector>
 
 // TODO: aligning?
 struct IterResult {
@@ -10,6 +11,7 @@ struct IterResult {
     Point arg;
     double val;
     unsigned int n_iter;
+    std::vector<Point> trace;
 };
 
 #endif	// _ITERRESULT_H_

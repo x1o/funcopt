@@ -14,6 +14,7 @@ IterResult ScalarField::ConjugateGradient(ConjugateGradientParams* params,
   Point x_prev;
   Point grad_next;
   IterResult res;
+  res.trace.push_back(x_0);
   double alpha, beta, f_k;
   // std::cout << x_k << " ~ " << p_k << std::endl;
   // while (!IsZeroVector(grad_k, eps)) {
@@ -40,5 +41,6 @@ IterResult ScalarField::ConjugateGradient(ConjugateGradientParams* params,
     beta = (grad_next * grad_next) / (grad_k * grad_k);
     p_k = -grad_next + beta * p_k;
     grad_k = grad_next;
+    res.trace.push_back(x_k);
   }
 }

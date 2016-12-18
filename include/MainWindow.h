@@ -5,6 +5,7 @@
 #include <QPainter>
 #include "ContourPlotRenderWidget.h"
 #include "scalar_fields.h"
+#include "GuiConfiguration.h"
 
 namespace Ui {
 class MainWindow;
@@ -16,20 +17,25 @@ class MainWindow : public QMainWindow
 
   public:
     explicit MainWindow(QWidget *parent = 0);
+    GuiConfiguration conf_;
+
     ~MainWindow();
 
   private slots:
-//    void my_slot();
-
     void on_cbSelectFunction_currentIndexChanged(int index);
+
+    void on_pbMinimize_clicked();
+
+    void on_pbReset_clicked();
+
+    void aboutBox();
 
   signals:
 //    void my_signal(int i);
 
   private:
     Ui::MainWindow *ui;
-    const ScalarFieldList obj_funs = { new F1(), new F2(), new F3() };
-    ScalarField* f_cur;
+    ScalarFieldList obj_funs_;
 };
 
 #endif // MAINWINDOW_H

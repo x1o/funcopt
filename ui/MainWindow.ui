@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1013</width>
-    <height>539</height>
+    <width>834</width>
+    <height>479</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout_2">
+   <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QSplitter" name="splitter">
       <property name="orientation">
@@ -28,28 +28,26 @@
         </sizepolicy>
        </property>
        <property name="title">
-        <string>Countour plot</string>
+        <string>Objective function</string>
        </property>
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="0" column="0">
-         <widget class="ContourPlotRenderWidget" name="plot" native="true"/>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QComboBox" name="cbSelectFunction"/>
+        </item>
+        <item>
+         <widget class="ContourPlotRenderWidget" name="plot" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
       <widget class="QWidget" name="verticalLayoutWidget">
        <layout class="QVBoxLayout" name="ltControl">
-        <item>
-         <widget class="QGroupBox" name="ltObjFunc">
-          <property name="title">
-           <string>Objective function</string>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
-           <item>
-            <widget class="QComboBox" name="cbSelectFunction"/>
-           </item>
-          </layout>
-         </widget>
-        </item>
         <item>
          <widget class="QGroupBox" name="ltOptMethods">
           <property name="title">
@@ -62,28 +60,42 @@
               <enum>Qt::LeftToRight</enum>
              </property>
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="pageCG">
               <property name="geometry">
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>838</width>
-                <height>140</height>
+                <width>613</width>
+                <height>149</height>
                </rect>
               </property>
               <attribute name="label">
                <string>Conjugate Gradient</string>
               </attribute>
+              <layout class="QVBoxLayout" name="verticalLayout_2">
+               <item>
+                <widget class="QLabel" name="label_3">
+                 <property name="font">
+                  <font>
+                   <italic>true</italic>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>(select an initial point by clicking on the contour plot)</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </widget>
              <widget class="QWidget" name="pageRS">
               <property name="geometry">
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>838</width>
-                <height>140</height>
+                <width>571</width>
+                <height>149</height>
                </rect>
               </property>
               <attribute name="label">
@@ -99,11 +111,17 @@
                </item>
                <item row="0" column="1">
                 <widget class="QDoubleSpinBox" name="sbGlobSearchProb">
+                 <property name="minimum">
+                  <double>0.010000000000000</double>
+                 </property>
                  <property name="maximum">
                   <double>1.000000000000000</double>
                  </property>
                  <property name="singleStep">
                   <double>0.100000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>0.200000000000000</double>
                  </property>
                 </widget>
                </item>
@@ -116,11 +134,17 @@
                </item>
                <item row="1" column="1">
                 <widget class="QDoubleSpinBox" name="sbContractFactor">
+                 <property name="minimum">
+                  <double>0.010000000000000</double>
+                 </property>
                  <property name="maximum">
                   <double>1.000000000000000</double>
                  </property>
                  <property name="singleStep">
                   <double>0.100000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>0.500000000000000</double>
                  </property>
                 </widget>
                </item>
@@ -132,44 +156,57 @@
          </widget>
         </item>
         <item>
-         <widget class="QGroupBox" name="ltStopIterCrit">
-          <property name="title">
-           <string>Stop Iteration Criteria</string>
-          </property>
-          <layout class="QFormLayout" name="formLayout">
-           <item row="0" column="0">
-            <widget class="QCheckBox" name="chbMaxIter">
-             <property name="text">
-              <string>Max. # of iterations</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QSpinBox" name="sbMaxIter">
-             <property name="maximum">
-              <number>1000000000</number>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QCheckBox" name="chbValDiff">
-             <property name="text">
-              <string>Successive values difference</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QDoubleSpinBox" name="sbValDiff">
-             <property name="decimals">
-              <number>16</number>
-             </property>
-             <property name="singleStep">
-              <double>0.001000000000000</double>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QGroupBox" name="ltStopIterCrit">
+            <property name="title">
+             <string>Stop iteration criteria</string>
+            </property>
+            <layout class="QFormLayout" name="formLayout">
+             <item row="0" column="0">
+              <widget class="QCheckBox" name="chbMaxIter">
+               <property name="text">
+                <string>Max. # of iterations</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QSpinBox" name="sbMaxIter">
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="maximum">
+                <number>1000000000</number>
+               </property>
+               <property name="value">
+                <number>100</number>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QCheckBox" name="chbValDiff">
+               <property name="text">
+                <string>Successive values difference</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="sbValDiff">
+               <property name="decimals">
+                <number>9</number>
+               </property>
+               <property name="singleStep">
+                <double>0.001000000000000</double>
+               </property>
+               <property name="value">
+                <double>0.000001000000000</double>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
          <layout class="QHBoxLayout" name="ltMainControlButtons">
@@ -213,7 +250,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1013</width>
+     <width>834</width>
      <height>27</height>
     </rect>
    </property>
