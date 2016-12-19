@@ -33,30 +33,36 @@
           <property name="title">
            <string>Objective function</string>
           </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QComboBox" name="cbSelectFunction"/>
-        </item>
-        <item>
-         <widget class="ContourPlotRenderWidget" name="plot" native="true">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <stylestrategy>PreferAntialias</stylestrategy>
-           </font>
-          </property>
-          <property name="cursor">
-           <cursorShape>CrossCursor</cursorShape>
-          </property>
-          <property name="mouseTracking">
-           <bool>true</bool>
-          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <widget class="QComboBox" name="cbSelectFunction"/>
+           </item>
+           <item>
+            <widget class="ContourPlotRenderWidget" name="plot" native="true">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <stylestrategy>PreferAntialias</stylestrategy>
+              </font>
+             </property>
+             <property name="cursor">
+              <cursorShape>CrossCursor</cursorShape>
+             </property>
+             <property name="mouseTracking">
+              <bool>true</bool>
+             </property>
+             <zorder>cbSelectFunction</zorder>
+            </widget>
+           </item>
+          </layout>
+          <zorder>cbSelectFunction</zorder>
+          <zorder>cbSelectFunction</zorder>
+          <zorder>plot</zorder>
          </widget>
         </item>
         <item>
@@ -310,6 +316,9 @@
      </widget>
     </item>
    </layout>
+   <zorder>splitter</zorder>
+   <zorder>cbSelectFunction</zorder>
+   <zorder>ltContourPlot</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
