@@ -143,9 +143,7 @@ void ContourPlotRenderWidget::mousePressEvent(QMouseEvent* event)
   if (!(event->button() == Qt::LeftButton)) {
     return;
   }
-//  std::cout << event->pos().x() << " " << event->pos().y() << " -> ";
   conf_->SetInitialPoint(ScreenToR2(event->pos()));
-//  std::cout << "x_0 = " << *(conf_->GetInitialPoint()) << "; w = " << width() << ", h = " << height() << std::endl;
   update();
 //  repaint();
 }

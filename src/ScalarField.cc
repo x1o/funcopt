@@ -89,13 +89,19 @@ double ScalarField::LineSearch(const Point& p, Point& q, double eps) const {
 
 IterResult ScalarField::FindMin(OptMethod method, MethodParams* params,
                                 StopIterCriteria oracle, bool verbose) const {
+  IterResult res;
   switch (method) {
     case OptMethod::ConjugateGradient:
       // FIXME: avoid static_cast ?
-      return ConjugateGradient(static_cast<ConjugateGradientParams*>(params), oracle, verbose);
+      res = ConjugateGradient(static_cast<ConjugateGradientParams*>(params),
+                              oracle, verbose);
+      break;
     case OptMethod::RandomSearchBernoulli:
-      return RandomSearchBernoulli(static_cast<RandomSearchBernoulliParams*>(params), oracle, verbose);
+      res = RandomSearchBernoulli(static_cast<RandomSearchBernoulliParams*>(params),
+                                  oracle, verbose);
+      break;
   }
+  return res;
 }
 
 std::ostream& operator<<(std::ostream& s, ScalarField& f) {

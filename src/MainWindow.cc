@@ -17,8 +17,8 @@
 
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    conf_()
+    conf_(),
+    ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
   obj_funs_ = { new F1(), new F2(), new F3() };
@@ -44,18 +44,12 @@ MainWindow::MainWindow(QWidget *parent)
                    this, &MainWindow::DisplayPointInStatusBox);
 
 //  Q_ASSERT(plot);
-//  QObject::connect(this, &MainWindow::my_signal, plot, &ContourPlotRenderWidget::changeState);
 }
 
 MainWindow::~MainWindow()
 {
   delete ui;
 }
-
-//void MainWindow::my_slot()
-//{
-//    emit my_signal(10);
-//}
 
 void MainWindow::on_cbSelectFunction_currentIndexChanged(int index)
 {
@@ -119,7 +113,7 @@ void MainWindow::on_pbMinimize_clicked()
   findChild<QLabel*>("lab_min")->setText(QString::number(res.val));
   findChild<QLabel*>("lab_argmin")->setText(res.arg.ToString().c_str());
   // FIXME: n_iter - 1
-  findChild<QLabel*>("lab_n_iter")->setText(QString::number(res.n_iter - 1));
+  findChild<QLabel*>("lab_n_iter")->setText(QString::number(res.n_iter));
 
 //  std::cout << "argmin = " << res.arg << std::endl;
 //  std::cout << "min = " << res.val << std::endl;

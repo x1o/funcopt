@@ -30,7 +30,6 @@ class MainWindow : public QMainWindow
     void aboutBox();
 
   signals:
-//    void my_signal(int i);
 
   private:
     Ui::MainWindow *ui;
