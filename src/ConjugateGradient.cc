@@ -24,8 +24,8 @@ IterResult ScalarField::ConjugateGradient(ConjugateGradientParams* params,
     f_k = Eval(x_k);
     if (verbose)
       std::cout << "f_k = " << f_k << std::endl;
-    if (oracle.ShouldStop(k, f_k)) {
-      res.has_converged = oracle.HasConverged();
+    if (oracle.ShouldStop(k, f_k) or grad_k.IsZero()) {
+      res.has_converged = (oracle.HasConverged() || grad_k.IsZero());
       res.arg = x_k;
       res.val = f_k;
       res.n_iter = k;

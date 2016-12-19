@@ -15,10 +15,11 @@ IterResult ScalarField::RandomSearchBernoulli(RandomSearchBernoulliParams* param
   Domain dom_loc = dom_f;
 //  Point x(dom_f.size());
   Point x = params->x_0;
+  Point cur_argmin(x);
   Domain* dom_cur;
   double f_val;
   double lim_left, lim_right;
-  double min_prev = std::numeric_limits<double>::max();
+  double cur_min = std::numeric_limits<double>::max();
   auto rng = []() { return double(rand()) / RAND_MAX; };
   IterResult res;
   res.trace.push_back(x);
@@ -38,7 +39,7 @@ IterResult ScalarField::RandomSearchBernoulli(RandomSearchBernoulliParams* param
       dom_cur = &dom_loc;
     }
     if (verbose) {
-      std::cout << "Search bounded on " << *dom_cur << " against min = " << min_prev << std::endl;
+      std::cout << "Search bounded on " << *dom_cur << " against min = " << cur_min << std::endl;
     }
     if (n_iter != 0) {
       for (size_t axis_idx = 0; axis_idx < dom_cur->size(); axis_idx++) {
@@ -48,7 +49,6 @@ IterResult ScalarField::RandomSearchBernoulli(RandomSearchBernoulliParams* param
         // std::cout << lim_right << std::endl;
         x[axis_idx] = rng() * (lim_right - lim_left) + lim_left;
       }
-      res.trace.push_back(x);
     }
     f_val = Eval(x);
     if (verbose) {
@@ -56,13 +56,15 @@ IterResult ScalarField::RandomSearchBernoulli(RandomSearchBernoulliParams* param
     }
     if (oracle.ShouldStop(n_iter, f_val)) {
       res.has_converged = oracle.HasConverged();
-      res.arg = x;
-      res.val = f_val < min_prev ? f_val : min_prev;
+      res.arg = f_val < cur_min ? x : cur_argmin;
+      res.val = f_val < cur_min ? f_val : cur_min;
       res.n_iter = n_iter;
       return res;
     }
-    if (f_val < min_prev) {
-      min_prev = f_val;
+    if (f_val < cur_min) {
+      res.trace.push_back(x);
+      cur_min = f_val;
+      cur_argmin = x;
       if (verbose) {
         std::cout << "Zooming " << *dom_cur << " to " << x << std::endl;
       }
