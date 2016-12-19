@@ -1,6 +1,6 @@
 #include <iostream>
 #include <sstream>
-
+#include <algorithm>
 #include <cstdlib>	// srand()
 #include <string>
 
@@ -170,11 +170,15 @@ int main() {
     }
   }
 
-  for (auto it = stop_iter_crit_list.begin(); it != stop_iter_crit_list.end(); it++) {
-    if (*it == nullptr) {
-      stop_iter_crit_list.erase(it);
-    }
-  }
+//  for (auto it = stop_iter_crit_list.begin(); it != stop_iter_crit_list.end(); it++) {
+//    if (*it == nullptr) {
+//      stop_iter_crit_list.erase(it);
+//    }
+//  }
+  stop_iter_crit_list.erase(
+        std::remove(stop_iter_crit_list.begin(), stop_iter_crit_list.end(), nullptr),
+        stop_iter_crit_list.end());
+
   StopIterCriteria oracle(stop_iter_crit_list);
 
   IterResult res;

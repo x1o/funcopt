@@ -13,6 +13,7 @@
 #include "IterResult.h"
 #include <iostream>
 #include <exception>
+#include <sstream>
 
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent),
@@ -38,6 +39,9 @@ MainWindow::MainWindow(QWidget *parent)
     cbSelectFunction->addItem(f_repr.c_str());
   }
   cbSelectFunction->setCurrentIndex(0);
+
+  QObject::connect(plot, &ContourPlotRenderWidget::CurrentPointChanged,
+                   this, &MainWindow::DisplayPointInStatusBox);
 
 //  Q_ASSERT(plot);
 //  QObject::connect(this, &MainWindow::my_signal, plot, &ContourPlotRenderWidget::changeState);
@@ -112,14 +116,19 @@ void MainWindow::on_pbMinimize_clicked()
       throw std::invalid_argument("Unsupported method");	// Shouldn't happen
   }
 
-  std::cout << "argmin = " << res.arg << std::endl;
-  std::cout << "min = " << res.val << std::endl;
-  if (res.has_converged) {
-    std::cout << "Converged in ";
-  } else {
-    std::cout << "Couldn't converge after ";
-  }
-  std::cout << res.n_iter << " iterations." << std::endl;
+  findChild<QLabel*>("lab_min")->setText(QString::number(res.val));
+  findChild<QLabel*>("lab_argmin")->setText(res.arg.ToString().c_str());
+  // FIXME: n_iter - 1
+  findChild<QLabel*>("lab_n_iter")->setText(QString::number(res.n_iter - 1));
+
+//  std::cout << "argmin = " << res.arg << std::endl;
+//  std::cout << "min = " << res.val << std::endl;
+//  if (res.has_converged) {
+//    std::cout << "Converged in ";
+//  } else {
+//    std::cout << "Couldn't converge after ";
+//  }
+//  std::cout << res.n_iter << " iterations." << std::endl;
 
   conf_.has_run = true;
   conf_.SetIterResult(res);
@@ -131,6 +140,14 @@ void MainWindow::on_pbReset_clicked()
   conf_.SetInitialPoint(nullptr);
   conf_.has_run = false;
   update();
+}
+
+void MainWindow::DisplayPointInStatusBox(Point* p, double val)
+{
+  std::stringstream ss;
+  ss << "f(" << *p << ") = " << val;
+  statusBar()->showMessage(QString(ss.str().c_str()));
+  delete p;
 }
 
 void MainWindow::aboutBox()

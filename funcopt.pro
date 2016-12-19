@@ -12,7 +12,7 @@ CONFIG += c++11 warn_on
 
 TEMPLATE = app
 
-INCLUDEPATH += include gtest/include gtest
+INCLUDEPATH += include/ gtest/include/ gtest/
 
 SOURCES += gtest/src/gtest-all.cc\
     tests/funcopt_unittest.cc\

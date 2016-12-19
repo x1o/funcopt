@@ -15,11 +15,12 @@ class ContourPlotRenderWidget : public QWidget
   protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
   signals:
+    void CurrentPointChanged(Point* p, double val);
 
   public slots:
-//    void changeState(int x);
 
   private:
     void DrawPlot(ScalarField* f);

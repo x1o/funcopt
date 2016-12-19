@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <ostream>
+#include <string>
 
 /**
  * A point ("vector") in \f$\mathbf{R}^k\f$.
@@ -14,6 +15,7 @@ class Point : public std::vector<double> {
     Point(const Point& p);
     Point();
     Point(int size);
+    std::string ToString() const;
     bool IsZero(double eps=10e-6) const;
     double L2Norm() const;
 };

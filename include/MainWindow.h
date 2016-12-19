@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QPainter>
+#include "Point.h"
 #include "ContourPlotRenderWidget.h"
 #include "scalar_fields.h"
 #include "GuiConfiguration.h"
@@ -23,11 +24,9 @@ class MainWindow : public QMainWindow
 
   private slots:
     void on_cbSelectFunction_currentIndexChanged(int index);
-
     void on_pbMinimize_clicked();
-
     void on_pbReset_clicked();
-
+    void DisplayPointInStatusBox(Point* p, double val);
     void aboutBox();
 
   signals:

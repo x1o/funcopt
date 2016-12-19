@@ -10,6 +10,21 @@ Point::Point(const Point& p) : std::vector<double>(p) {}
 Point::Point() : std::vector<double>() {}
 Point::Point(int size) : std::vector<double>(size) {}
 
+std::string Point::ToString() const
+{
+  std::stringstream ss;
+  ss << "[";
+  auto p = this;
+  if (p->size() > 0) {
+    for (size_t i = 0; i < p->size() - 1; i++) {
+      ss << (*p)[i] << ", ";
+    }
+    ss << (*p)[p->size()-1];
+  }
+  ss << "]";
+  return ss.str();
+}
+
 bool Point::IsZero(double eps) const {
   for (size_t i = 0; i < size(); i++) {
     if (std::abs((*this)[i]) > eps) {
@@ -86,13 +101,5 @@ double operator* (const Point& p, const Point& q) {
 }
 
 std::ostream& operator<<(std::ostream& s, const Point& p) {
-  s << "[";
-  if (p.size() > 0) {
-    for (size_t i = 0; i < p.size() - 1; i++) {
-      s << p[i] << ", ";
-    }
-    s << p[p.size()-1];
-  }
-  s << "]";
-  return s;
+  return s << p.ToString();
 }

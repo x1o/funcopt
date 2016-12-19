@@ -80,14 +80,21 @@ void ContourPlotRenderWidget::DrawX(const QPoint& p)
 void ContourPlotRenderWidget::DrawTrace(const std::vector<Point>& trace)
 {
   QPainter painter(this);
-  QPoint* q_prev = nullptr;
-  QPoint* q;
-  for (auto& p: trace) {
-    q = new QPoint(R2ToScreen(p));
-    painter.drawEllipse(*q, 5, 5);
-    if (q_prev != nullptr) {
-      painter.drawLine(*q_prev, *q);
-      delete q_prev;
+  QPoint q_prev;
+  QPoint q;
+  painter.setBrush(QBrush(QColor("black")));
+  for (unsigned int i = 0; i < trace.size(); i++) {
+    if (i == trace.size() - 1) {
+      painter.setPen(QColor("red"));
+      painter.setBrush(QBrush(QColor("red")));
+    } else {
+      painter.setPen(QColor("black"));
+    }
+    q = QPoint(R2ToScreen(trace[i]));
+    painter.drawEllipse(q, 2, 2);
+    if (i != 0) {
+      painter.setPen(QColor("grey"));
+      painter.drawLine(q_prev, q);
     }
     q_prev = q;
   }
@@ -136,13 +143,15 @@ void ContourPlotRenderWidget::mousePressEvent(QMouseEvent* event)
   if (!(event->button() == Qt::LeftButton)) {
     return;
   }
-  std::cout << event->pos().x() << " " << event->pos().y() << " -> ";
+//  std::cout << event->pos().x() << " " << event->pos().y() << " -> ";
   conf_->SetInitialPoint(ScreenToR2(event->pos()));
-  std::cout << "x_0 = " << *(conf_->GetInitialPoint()) << "; w = " << width() << ", h = " << height() << std::endl;
+//  std::cout << "x_0 = " << *(conf_->GetInitialPoint()) << "; w = " << width() << ", h = " << height() << std::endl;
   update();
+//  repaint();
 }
 
-//void ContourPlotRenderWidget::changeState(int i) {
-//    state = i;
-//    repaint();
-//}
+void ContourPlotRenderWidget::mouseMoveEvent(QMouseEvent* event)
+{
+  Point* x_ptr = ScreenToR2(event->pos());
+  emit CurrentPointChanged(x_ptr, conf_->GetCurrentFunc()->Eval(*x_ptr));
+}
