@@ -62,6 +62,8 @@ IterResult ScalarField::RandomSearchBernoulli(RandomSearchBernoulliParams* param
       return res;
     }
     if (f_val < cur_min) {
+      // TODO: add the full trace in the form of a graph: G = {(x_i, y_i)}
+      // then draw only successful steps by comparing y_i's.
       res.trace.push_back(x);
       cur_min = f_val;
       cur_argmin = x;

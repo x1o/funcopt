@@ -1,3 +1,4 @@
+// FIXME: see https://forum.qt.io/topic/74176/using-google-test-with-qtcreator-and-autotest-plugin
 #include <sstream>
 #include <iostream>
 #include <exception>

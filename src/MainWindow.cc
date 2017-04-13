@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
                    this, &MainWindow::DisplayPointInStatusBox);
 
 //  Q_ASSERT(plot);
+  // TODO: "Draw only successful steps" checkbox for RandomSearch.
 }
 
 MainWindow::~MainWindow()
@@ -112,7 +113,6 @@ void MainWindow::on_pbMinimize_clicked()
 
   findChild<QLabel*>("lab_min")->setText(QString::number(res.val));
   findChild<QLabel*>("lab_argmin")->setText(res.arg.ToString().c_str());
-  // FIXME: n_iter - 1
   findChild<QLabel*>("lab_n_iter")->setText(QString::number(res.n_iter));
 
 //  std::cout << "argmin = " << res.arg << std::endl;

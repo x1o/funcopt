@@ -102,6 +102,7 @@ void ContourPlotRenderWidget::DrawTrace(const std::vector<Point>& trace)
 
 QPoint ContourPlotRenderWidget::R2ToScreen(const Point& p)
 {
+  // FIXME: this isn't too good; better use qt's coordinates translation first
   auto f = conf_->GetCurrentFunc();
   double dom_0_L = f->GetDomain()[0][0];
   double dom_0_R = f->GetDomain()[0][1];
