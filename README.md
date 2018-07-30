@@ -1,1 +1,1 @@
-![funcopt under Ubuntu 15.10](https://s27.postimg.org/s2cmqeznn/Screenshot_from_2016-12-20_11-21-57.png)
+![funcopt under Ubuntu 15.10](https://raw.githubusercontent.com/x1o/funcopt/qt5-gui/pic/Screenshot%20from%202016-12-20%2011-21-57.png)
